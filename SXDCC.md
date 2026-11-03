@@ -441,7 +441,9 @@ optional client-authentication plugin, additive to and interoperable with v1:
 
 Reserved. If NAT/firewalls favour a single connection, a frame layer
 (`COMMAND`/`DATA`/`END`/`ERROR`, length-prefixed) MAY be added without disturbing
-the §9 command vocabulary.
+the §9 command vocabulary. The QUIC transport and NAT-traversal extension
+(candidate exchange, reverse-tunnel bounce, and TURN relay fallback) that
+supersede the single-connection case are specified in `SXDCC-TRANSPORT.md`.
 
 ### 13.4 CA-based no-touch rotation
 
