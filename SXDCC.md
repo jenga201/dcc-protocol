@@ -437,13 +437,16 @@ optional client-authentication plugin, additive to and interoperable with v1:
 * **TLS 1.3 external PSK or client certificate** — strongest mutual authentication,
   for operators willing to provision per-client credentials.
 
-### 13.3 Multiplexed single-channel transport
+### 13.3 Single-port data multiplexing
 
-Reserved. If NAT/firewalls favour a single connection, a frame layer
-(`COMMAND`/`DATA`/`END`/`ERROR`, length-prefixed) MAY be added without disturbing
-the §9 command vocabulary. The QUIC transport and NAT-traversal extension
-(candidate exchange, reverse-tunnel bounce, and TURN relay fallback) that
-supersede the single-connection case are specified in `SXDCC-TRANSPORT.md`.
+An implementation MAY serve the data channel on the same address and port as the
+control channel, so the bot needs no separate data-port range. In this mode the
+bot's `SEND` line advertises the control address, and the client opens a second
+TLS 1.3 connection to that address and sends `DATA <datatoken>` as its first
+line. The bot's control listener demultiplexes on the first line — `AUTH <token>`
+begins a control session, `DATA <datatoken>` begins a data connection — and
+streams the pack on the latter. This keeps the bot's inbound footprint at a
+single shared port while remaining compatible with the active data channel of §10.
 
 ### 13.4 CA-based no-touch rotation
 
